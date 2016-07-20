@@ -4,7 +4,7 @@ To deploy the app to Bluemix, just click the Deploy to Bluemix button
 
 1. Click Deploy to Bluemix and log in with your Bluemix credentials
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/donFotter/HelloWorkloadApp) 
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/WAdev0/HelloWorkloadSampleApp) 
 
 
 2. Select your region.
