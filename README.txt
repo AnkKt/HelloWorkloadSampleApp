@@ -7,7 +7,7 @@ Files
 
 The Hello Workload application contains the following contents:
 
-*   helloWorkloadApp.war
+*   target/HelloWorkloadApp.war
 
     This WAR file is actually the application itself. It is the only file that is pushed to and run on the Bluemix cloud. Every time your application code is updated, you need to regenerate this WAR file and push it to Bluemix again. See the next section on detailed steps.
     
