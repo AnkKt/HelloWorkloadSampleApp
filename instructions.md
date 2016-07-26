@@ -1,10 +1,5 @@
 Get started with Hello Workload
 -----------------------------------
-Welcome to the Hello Workload application!
-
-This sample application demonstrates how to write a Hello World application leveraging the Workload Scheduler service and deploy it on Bluemix.
-Before deploying it to Bluemix, in the HelloWorkload class you have to set your basicAuth and the hostname to connect on. This sample use our
-new REST api, so you'll need to download the java-client avaible on Bluemix in order to use them.
 
 Here the instructions if you use the command line cf instead of ACE
 1. Install the cf command-line tool(https://www.ng.bluemix.net/docs/#cli/index.html#cli).
