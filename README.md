@@ -2,7 +2,7 @@
 
 Welcome to the Hello Workload application!
 
-This sample application demonstrates how to write a Hello World application leveraging the Workload Scheduler service and deploy it on Bluemix. This sample use our new REST api, so you'll need to download the java-client avaible on Bluemix in order to use them.
+This sample application demonstrates how to write a Hello World application leveraging the Workload Scheduler service and deploy it on Bluemix. This sample use our new REST api and it's ready to be deployed to Bluemix cloud platform.
 
 # Application overview:
 This application was realized using Maven, so we can find the pom.xml file with all the dependency and the plugin needed.
