@@ -25,7 +25,7 @@ Src:
 
 In src two folder are available: 
   - com 
-  - webapp 
+  - webapp  
 The first folder contains the java source code and the second contains the web resource of the app. The lower-level webapp folder contains
 the page (index.jsp) that will be loaded when the app is launched. In the same folder is located the WEB-INF folder, containing  
 the external library required for the project and the web.xml descriptor. 
