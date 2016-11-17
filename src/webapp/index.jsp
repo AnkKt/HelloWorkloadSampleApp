@@ -30,19 +30,26 @@ if (session.getAttribute(HELLO_WORKLOAD_SESSION_KEY)!=null){
 	 hw.helloWorkloadConnect(out);
  }else if ("track".equals(action)){
 	 hw.helloWorkloadTrack(out);
+ }else if ("restart".equals(action)){	 
+	 hw.resetAll();
  }
+ 
 %>
 
 <% if (!hw.isConnected()) { %>
 You are not connected to the service. Click <a href="index.jsp?action=connect">Connect </a> to begin.<br>
 <% } %>
-<% if (hw.isConnected()) { %>
+<% if (hw.isConnected() && hw.getMyProcessId() == -1 ){ %>
 You are connected to the Workload Instance service. <br>
-<a href="index.jsp?action=create">Create a process </a><br><br>
+<a href="index.jsp?action=create">Create a process</a><br><br>
 <% } %>
-<% if (hw.getMyProcessId()>0) { %>
+<% if (hw.getMyProcessId()>0 && !hw.tracked() ) { %>
 You have created and submitted to run a process with id = <%= hw.getMyProcessId() %><br>
 <a href="index.jsp?action=track">Track the process </a><br>
+<% } %>
+<% if (hw.tracked() ) { %>
+<button type="button" onClick="window.location.reload();">Refresh Status</button><br><br>
+<a href="index.jsp?action=restart">Restart application</a><br>
 <% } %>
 	
 </body>

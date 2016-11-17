@@ -13,12 +13,11 @@ Here the instructions if you use the command line cf instead of ACE
 		cf login -u <your_username>
 		cf target -o <your_username> -s dev
 				
-5. Compile the JAVA code and generate the war package using ant.
-6. Deploy your app:
+5. Deploy your app:
 
 		cf push <your_app_name> -p helloWorkloadApp.war --no-start
 		cf create-service WorkloadService Standard <your_service_name>
 		cf bind-service <your_app_name> <your_service_name>
 		cf start 
 
-7. Access your app <your_app_name>
+6. Access your app <your_app_name>
