@@ -6,7 +6,9 @@ This sample application demonstrates how to write a Hello World application leve
 
 # Deploy to Bluemix
 
-To begin, click Deploy to Bluemix and log in with your Bluemix credentials
+To begin:
+- create a new instance of Workload Scheduler service
+- click Deploy to Bluemix and log in with your Bluemix credentials
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/WAdev0/HelloWorkloadSampleApp) 
 
@@ -14,6 +16,12 @@ To begin, click Deploy to Bluemix and log in with your Bluemix credentials
 2. Click Deploy.
 3. After having been deployed, your app is bound to the Workload Scheduler service and ready to run.
 
+Otherwise, if you prefer use the CF cli, you could follow these steps:
+		cf push <your_app_name> -p helloWorkloadApp.war --no-start
+		cf create-service WorkloadScheduler Standard <your_service_name>		
+		cf bind-service <your_app_name> <your_service_name>
+		cf restage <your_app_name>
+		cf start <your_app_name>
 
 # Application overview:
 This application is written in Java using Maven, so you can find the pom.xml file with all the required dependencies and the plugin.
@@ -31,9 +39,7 @@ The first folder contains the java source code and the second contains the web r
 the page (index.jsp) that will be loaded when the app is launched. In the same folder is located the WEB-INF folder, containing  
 the external library required for the project and the web.xml descriptor. 
 
-Target:
 
-This folder contains the result of the Maven build and, in particular, the WAR file. This WAR file is the application itself. It is the only file that is pushed to and ran on the Bluemix cloud. Every time your application code is updated, regenerate the WAR file and push it to Bluemix again
 
 
 

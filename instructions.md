@@ -16,8 +16,9 @@ Here the instructions if you use the command line cf instead of ACE
 5. Deploy your app:
 
 		cf push <your_app_name> -p helloWorkloadApp.war --no-start
-		cf create-service WorkloadService Standard <your_service_name>
+		cf create-service WorkloadScheduler Standard <your_service_name>		
 		cf bind-service <your_app_name> <your_service_name>
-		cf start 
+		cf restage <your_app_name>
+		cf start <your_app_name>
 
 6. Access your app <your_app_name>
