@@ -7,14 +7,18 @@ This sample application demonstrates how to write a Hello World application leve
 # Deploy to Bluemix
 
 To begin:
-- create a new instance of Workload Scheduler service
-- click Deploy to Bluemix and log in with your Bluemix credentials
+- Click Deploy to Bluemix and log in with your Bluemix credentials
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/WAdev0/HelloWorkloadSampleApp) 
 
 1. Select your region.
 2. Click Deploy.
-3. After having been deployed, your app is bound to the Workload Scheduler service and ready to run.
+3. After having been deployed, your app is NOT bound to the Workload Scheduler service.
+- From Dashboard, select your app then:
+1. from Connections box, click on Connect New
+2. select Workload Scheduler service then Create
+3. click on Restage
+- Now your Hello Workload application is ready to run.
 
 Otherwise, if you prefer use the CF cli, you could follow these steps: 
 	- cf login -a https://api.ng.bluemix.net -u <your_username>
