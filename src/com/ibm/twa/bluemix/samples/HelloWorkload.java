@@ -48,30 +48,28 @@ import com.ibm.tws.model.StepHistoryInstance;
 public class HelloWorkload {
 	// Once connected and authenticated correctly, this boolean is true
 	boolean connected = false;
-    // Monitor navigation history
+	// Monitor navigation history
 	boolean tracked = false;
 	// Holds the last created process id.
-	long myProcessId = -1;	
+	Integer myProcessId = -1;	
 	// If true adds <br> instead of \n for each output row
 	boolean htmlOut = true;
-	
+
 	String workloadServiceName = "WorkloadScheduler";
 	String agentName = "";
 	String agentName_suffix = "_CLOUD";
-	
+
 	final String engineName = "engine";
 	final String engineOwner = "engine";
+
 	String restURL = "";
 	String user = "";
 	String password = "";
 	String tenantId = ""; 
-	
-	
+
+
 	ApiClient apiClient;
 
-	// Enable debug mode if needed
-	boolean debugMode = true;
-	
 	final String LIBRARY_NAME = "HelloWorkload";
 	final String PROCESS_NAME = "HelloWorld";
 
@@ -130,22 +128,22 @@ public class HelloWorkload {
 			basePath = "https://" + url.substring(url.indexOf("@") + 1, url.indexOf("?"));			
 			restURL = basePath.substring(0, basePath.indexOf("ibm/")) + "twsd/plan";
 		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	
+
 		int index = url.indexOf("tenantId=") + 9;
 		String prefix = url.substring(index, index + 2);
 		println(out, "prefix=" + prefix);
 		tenantId = prefix;
 		agentName = prefix + agentName_suffix;
+
 		try  {
 			HelloWorkload.disableCertificateValidation();
 			apiClient = new ApiClient();		
 			apiClient.setBasePath(basePath);
 			apiClient.setUsername(user);
 			apiClient.setPassword(password);
-			
+
 		} catch (Exception e) {
 			println(out, "Could not connect to the service: "
 					+ e.getClass().getName() + " " + e.getMessage());
@@ -164,59 +162,60 @@ public class HelloWorkload {
 	 * @throws ApiException
 	 */
 	public void helloWorkloadCreate(Writer o) throws ApiException {
-		Integer processID = null;
 		PrintWriter out = new PrintWriter(o);		
 
 		ProcessApi processApi = new ProcessApi(apiClient);
 		ProcessLibraryApi libApi = new ProcessLibraryApi(apiClient);
 
-        // Determine Library
+		// Determine Library
 		// Libary name must be unique in your tenantID
-        List<ProcessLibrary> libraries = libApi.listProcessLibrary(tenantId, engineName, engineOwner);
-        boolean present = false;
-        Integer libID = null;
-        for (ProcessLibrary l: libraries) {
-        	if (l.getName().equals(LIBRARY_NAME)) {
-        		present = true;
-        		libID = l.getId();
-        	}
-        }
-        if (!present) {
-        	List<ProcessLibrary> result = libApi.createProcessLibrary((new ProcessLibrary()).name(LIBRARY_NAME).parentid(-1), tenantId, engineName, engineOwner);
-        	if (result.isEmpty())
-    			throw new RuntimeException("Could not create library");
-        	libID = result.get(0).getId();
-        }
+		List<ProcessLibrary> libraries = libApi.listProcessLibrary(tenantId, engineName, engineOwner);
+		boolean present = false;
+		Integer libID = null;
+		for (ProcessLibrary l: libraries) {
+			if (l.getName().equals(LIBRARY_NAME)) {
+				present = true;
+				libID = l.getId();
+			}
+		}
+		if (!present) {
+			ProcessLibrary processLib = new ProcessLibrary();
+			processLib.setName(LIBRARY_NAME);
+			List<ProcessLibrary> result = libApi.createProcessLibrary(processLib, tenantId, engineName, engineOwner);
+			if (result.isEmpty())
+				throw new RuntimeException("Could not create library");
+			libID = result.get(0).getId();
+		}
 
-        Process process = new Process();
+		Process process = new Process();
 		process.setName(PROCESS_NAME);
 		process.setProcesslibraryid(libID);
 		process.setProcessstatus(false);
-		
+
 		List<Step> steps = new ArrayList<Step>();
 		Step step = new Step();
 
 		RestfulStep restfulStep = new RestfulStep();
 		restfulStep.agent(agentName);
-		
+
 		RestAction ra = new RestAction();
 		ra.setUri(restURL);
 		ra.setMethod("GET");
 
 		restfulStep.setAction(ra);		
-		
+
 		RestAuthenticationData rad = new RestAuthenticationData();
 		rad.setUsername(user);
 		rad.setPassword(password);
 		restfulStep.setAuthdata(rad);
-		
+
 		RestInput ri = new RestInput();
 		ri.setIsFile(false);
 		ri.setInput("");
 		restfulStep.setInput(ri);		
-		
+
 		step.setRestfulStep(restfulStep);
-		
+
 		steps.add(step);
 		process.setSteps(steps);
 
@@ -264,12 +263,12 @@ public class HelloWorkload {
 				println(out, "Process details:\n");
 				println(out,
 						"Started: " + processHistoryInstance.getStartdate()
-								+ "\n Completed steps: "
-								+ processHistoryInstance.getCompletedsteps()
-								+ "\n Is completed: "
-								+ (processHistoryInstance.getStatus() == 0)
-								+ "\n");
-				
+						+ "\n Completed steps: "
+						+ processHistoryInstance.getCompletedsteps()
+						+ "\n Is completed: "
+						+ (processHistoryInstance.getStatus() == 0)
+						+ "\n");
+
 				if ((processHistoryInstance.getStatus() == 0)) {
 					println(out, "The process has completed all the steps in: "
 							+ processHistoryInstance.getElapsedtime() / 1000
@@ -279,7 +278,6 @@ public class HelloWorkload {
 						String stepLog = ops.getStepLog(myProcessId_str, processHistoryInstance.getId(), stepsInstance.getId(), tenantId, engineName, engineOwner);
 						println(out, "Step Log:");
 						println(out, stepLog);
-						//println(out,"<a href='index.jsp?action=restart'>Restart application</a><br>");
 						out.flush();
 					}
 				}
@@ -301,18 +299,18 @@ public class HelloWorkload {
 		}
 	}
 
-	public long getMyProcessId() {
+	public Integer getMyProcessId() {
 		return myProcessId;
 	}
 
 	public boolean isConnected() {
 		return connected;
 	}
-	
+
 	public boolean tracked() {		
 		return tracked;
 	}
-	
+
 	public void resetAll() {
 		connected = false;
 		myProcessId = -1;
@@ -361,7 +359,7 @@ public class HelloWorkload {
 			SSLContext sc = SSLContext.getInstance("TLS");
 			sc.init(null, trustAllCerts, new SecureRandom());
 			HttpsURLConnection
-					.setDefaultSSLSocketFactory(sc.getSocketFactory());
+			.setDefaultSSLSocketFactory(sc.getSocketFactory());
 			HttpsURLConnection.setDefaultHostnameVerifier(hv);
 		} catch (Exception e) {
 		}
